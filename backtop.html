@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		.ui-backtop{
+			display: block;
+			position:fixed;
+			right:2px;
+			bottom:9px;
+			width:40px;
+			height:40px;
+			background:gray url(img/icon-go-up.png)  center no-repeat;
+			color:#fff;
+			z-index: 9;
+		}
+		.ui-backtop:hover{
+			background:gray;
+		}
+		.ui-backtop:hover:after{
+			content:"回到顶部";
+			display: block;
+			line-height: 20px;
+			text-align: center;
+		}
+		.box{
+			width:1000px;
+			height:2000px;
+			background-color: lavender;
+			margin: 0 auto;
+		}
+		</style>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js" ></script>
+	</head>
+	<body>
+		<div class="box"></div>
+		<script>
+			$.fn.UiBacktop=function(){
+			var ui=$(this);
+			var el=$('<a href="#0" class="ui-backtop"></a>');
+			ui.append(el);
+	
+			var windowHeight=$(window).height()
+			
+			$(window).on('scroll',function(){
+					var top=$('html,body').scrollTop();
+					console.log(top);
+					if(top > windowHeight){
+					el.show();
+				}
+				else{
+					el.hide();
+				}
+			});
+			el.on('click',function(){
+			$(window).scrollTop(0);
+		});
+	};
+	
+	$(function(){
+		$('body').UiBacktop();
+	});
+	</script>
+	</body>
+</html>
+
+//内置css和外部链接的CSS在图片路径方面有不同，注意区别
