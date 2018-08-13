@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		*{
+			margin: 0px;
+			padding: 0px;
+		}
+		.box{
+			position: relative;
+			width:600px;
+			height: 600px;
+			background-color: lavender;
+		}
+			.shape{
+				position:absolute;
+				top:0px;
+				left:0px;
+				width:100px;
+				height:100px;
+				border-radius: 100px;
+				background-color: red;
+			}
+		</style>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js" ></script>
+		
+	</head>
+	<body>
+		<div id="box" class="box">
+			<div id="shape" class="shape"></div>
+		</div>
+		
+		<script>
+			var shape=document.getElementById("shape");
+			var lastX,lastY;
+			shape.onmousedown=function(evt){
+				var oevent=evt||window.event;
+				var ileft=oevent.offsetX;
+				var itop=oevent.offsetY;
+				
+				
+				MaxL=document.documentElement.clientWidth-shape.offsetWidth;
+				MaxT=document.documentElement.clientHeight-shape.offsetHeight;
+				
+				document.onmousemove=function(evt){
+					var oevent=evt||window.event;
+					
+					var left=oevent.clientX-ileft;
+					var top=oevent.clientY-itop;
+					
+					if(left<=0){left=0;}
+					if(top<=0){top=0;}
+					if(left>=MaxL){left=MaxL;}
+					if(top>=MaxT){top=MaxT;}
+					
+					shape.style.left=left+'px';
+					shape.style.top=top+'px';
+					
+					speedX=left-lastX;
+					speedY=top-lastY;
+					lastX=left;
+					lastY=top;
+					console.log(speedX);
+					console.log(speedY);
+					console.log(lastX);
+					console.log(lastY);
+				}
+				
+				document.onmouseup=function(){
+					document.onmousemove=null;
+					startMove();
+				}
+			}
+			
+			
+			function startMove(){
+				timer=setTimeout(function(){
+					
+				},16);
+			}
+			var timer=null;
+			function startMove(){
+				var nowX=shape.offsetLeft;
+				var nowY=shape.offsetTop;
+				
+				console.log(nowX);
+				console.log(nowY);
+				clearInterval(timer);
+				timer=setInterval(function(){
+					
+					speedY+=2;
+					nowX+=speedX;
+					if(nowX>MaxL){
+						speedX*=-0.8;
+						nowX=MaxL;
+					}
+					else if(nowX<0){
+						speedX*=-0.8;
+						nowX=0;
+					}
+					nowY+=speedY;
+					if(nowY>MaxT){
+						speedY*=-0.8;
+						speedX*=0.8;
+						nowY=MaxT;//这里没有加代码导致自己的球球在弹跳之后一直往下落
+					}
+					else if(nowY<0){
+						speedY*=-1;
+						speedX*=0.8;
+						nowY=0;	
+					}
+					if(Math.abs(speedX)<1){
+						speedX=0;
+					}
+					if(Math.abs(speedY)<1){
+						speedY=0;
+					}
+					
+					if(speedX==0&&speedY==0&&nowX==MaxT){
+						clearInterval(timer);
+					}
+					shape.style.left=nowX+'px';
+					shape.style.top=nowY+'px';
+				},25);
+			}
+			
+			
+		</script>
+	</body>
+</html>
