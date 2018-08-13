@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		.baner-slider{
+			width:544px;
+			height:414px;
+			background-color: #ADFF2F;
+			float:left;
+			margin:9px 9px 0 196px;
+		}
+		
+		.ui-slider{
+			position:relative;
+			width:544px;
+			height:414px;
+			overflow:hidden;
+		}
+		.ui-slider-wrap{
+			position:absolute;
+			left: 0;
+			top:0px;
+			width:9999px;
+			height:414px;
+			transition: all 1s;
+		}
+		.ui-slider-wrap .item{
+			display: block;
+			width:544px;
+			height:414px;
+			float:left;
+		}
+		.ui-slider-arrow{
+			position:absolute;
+			width:544px;
+			height:40px;
+			margin-top:-20px;
+			top:50%;
+			left:0px;
+		}
+		.ui-slider-arrow .item{
+			position:absolute;
+			display:block;
+			width:40px;
+			height:40px;
+			top:0px;
+			background: url(img/ui-slider-arrow.png) no-repeat;
+		}
+		.ui-slider-arrow .left{
+			background-position:0 0;
+			left:0px;
+		}
+		.ui-slider-arrow .right{
+			background-position: -40px 0;
+			right:0px;
+		}
+		.ui-slider-process{
+			position:absolute;
+			left:0px;
+			bottom:20px;
+			width:544px;
+			height:12px;
+			text-align: center;
+		}
+		.ui-slider-process .item{
+			display: inline-block;
+			width:12px;
+			height:12px;
+			/*margin-left:5px;*/
+			border-radius: 12px;
+			background-color: rgba(255,255,255,.8);
+		}
+		.ui-slider-process .item_focus,
+		.ui-slider-process .item:hover{
+		width:14px;
+		height:14px;
+		/*margin-left:5px;*/
+		border-radius: 14px;
+		background-color: rgba(50,120,255,.8);
+		}
+		</style>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js" ></script>
+		<script type="text/javascript" src="js/ui.js" ></script>
+	</head>
+	<body>
+		<div class="wrap">
+				<div  class="baner-slider ui-slider">
+					<div class="ui-slider-wrap">
+						<a href="#0" class="item"><img src="img/banner_1.jpg" alt=""/></a>
+						<a href="#0" class="item"><img src="img/banner_2.jpg" alt=""/></a>
+						<a href="#0" class="item"><img src="img/banner_3.jpg" alt=""/></a>
+					</div>
+					
+					<div class="ui-slider-arrow">
+						<a href="#l" class="item left">&nbsp;</a>
+						<a href="#r" class="item right">&nbsp;</a>
+					</div>
+					
+					<div class="ui-slider-process">
+						<a href="#0" class="item item_focus">&nbsp;</a>
+						<a href="#1" class="item">&nbsp;</a>
+						<a href="#2" class="item">&nbsp;</a>
+					</div>
+				</div>
+	</body>
+</html>
