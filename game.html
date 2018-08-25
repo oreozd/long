@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			.box{width:300px;height:500px;margin: auto;background-color:green;}
+			.enemy_img{width:80px; height: 80px;display:block;background-color: greenyellow;margin: auto;margin-bottom: 50px;}
+			hr{display: block; width: 280px;height:10px;background-color: bisque;margin: auto;}
+			.myself_img0{width:80px; height: 80px; background-color: greenyellow;margin: auto;margin-top: 50px;}
+			.imgbox{margin-left: -10px;}
+			.imgbox ul li{list-style-type: none;float:left;width:60px; height: 60px; background-color: greenyellow;margin:10px;}
+			.btn_sure{display:block;width:100px; height:30px; margin: auto;}
+			.btn_restart{display:none;}
+		</style>
+		<script type="text/javascript" src="js/jquery-1.7.1.min.js" ></script>
+	</head>
+	<body>
+		<div class="box">
+			<div class="enemy_img" id="enemy_img"></div>
+			<hr>
+			<div class="myself_img0" id="myself_img0"></div><br>
+			<div class="imgbox">
+			<ul>
+				<li><div class="myself_img1" id="myself_img1"><img src="img/images_game/cloth.jpg" width="60px" height="60px"/></div></li>
+				<li><div class="myself_img2" id="myself_img2"><img src="img/images_game/scissor.jpg" width="60px" height="60px"/></div></li>
+				<li><div class="myself_img3" id="myself_img3"><img src="img/images_game/stone.jpg" width="60px" height="60px"/></div></li>
+			</ul>
+			</div>
+			<div class="btn_sure"><button id="start" class="btn_start">开始</button><button id="restart" class="btn_restart">重新开始</button></div>
+		</div>
+		
+		<script>
+			var enemy=document.getElementById("enemy_img");
+			var melf_img0=document.getElementById("myself_img0");
+			var melf_img1=document.getElementById("myself_img1");
+			var melf_img2=document.getElementById("myself_img2");
+			var melf_img3=document.getElementById("myself_img3");
+			var btn_start=document.getElementById("start");
+			var btn_restart=document.getElementById("restart");
+			
+			var kk=0;
+			var mm=0;
+			var dotime=null;
+			melf_img1.onclick=function(){
+				melf_img0.style.background="url(img/images_game/cloth.jpg)";
+				kk=1;
+			}
+			melf_img2.onclick=function(){
+				melf_img0.style.background="url(img/images_game/scissor.jpg)";
+				kk=2;
+			}
+			melf_img3.onclick=function(){
+				melf_img0.style.background="url(img/images_game/stone.jpg)";
+				kk=3;
+			}
+			
+			//点击之后判断
+			btn_start.onclick=function(){
+				clearInterval(dotime);
+				if(kk==0){
+					alert("请做出你的选择");
+					location.reload();
+				};
+				fandong();
+				dnsj();
+			}
+			//点击再来一次
+			btn_restart.onclick=function(){
+				chong();
+			}
+			//电脑随机出
+			function dnsj(){
+				setTimeout(function(){
+					clearInterval(dotime);
+					var num=Math.random()*3;
+					num=Math.ceil(num);
+					mm=num;
+					switch(mm){
+						case 1:enemy.style.backgroundImage="url(img/images_game/cloth.jpg)";break;
+						case 2:enemy.style.backgroundImage="url(img/images_game/scissor.jpg)";break;
+						case 3:enemy.style.backgroundImage="url(img/images_game/stone.jpg)";break;
+					}
+					setTimeout(panduan,1000)
+				},600)
+			}
+			//判断输赢
+			function panduan(){
+				if(mm==kk){
+					btn_start.style.display="none";
+					btn_restart.style.display="block";
+					alert("平手");
+				}
+				else if(kk==1&&mm==3||kk==2&&mm==1||kk==3&&mm==2)
+				{
+					btn_start.style.display="none";
+					btn_restart.style.display="block";
+					alert("你赢了");
+				}
+				
+				//这里还需要写的这么明确吗，逻辑不是已经很明确了？
+				else if(kk==1&&mm==2||kk==2&&mm==3||kk==3&&mm==1)
+				{
+					btn_start.style.display="none";
+					btn_restart.style.display="block";
+					alert("你输了");
+				}
+			}
+			//图片翻动
+			function fandong(){
+			var imgs = ["url(images/scissor.jpg)","url(images/stone.jpg)","url(images/cloth.jpg)"];
+				var i = 0;
+				dotime=setInterval(function(){
+				enemy.style.backgroundImage = imgs[i++];
+				i = i > imgs.length - 1 ? 0 : i;  
+				},100);
+			}
+			//再来一次
+			function chong(){
+				location.reload();
+			}
+			
+			
+		</script>
+	</body>
+</html>
