@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://www.jsdaima.com/d-552.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<title>年会节庆等活动常用数字滚动抽奖js特效代码</title>
+<meta name="keywords" content="年会,节庆,活动,常用,数字滚动,抽奖,js特效代码">
+<meta name="description" content="年会节庆等活动常用数字滚动抽奖js特效代码。">
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+function stops(){
+   return false;
+}
+document.oncontextmenu=stops;
+</script>
+<style>
+*{margin:0;padding:0;}
+img{display:block;}
+i{font-style:normal;}
+.vetically{justify-content:center;align-items:center;display:-webkit-flex;}
+.prize_con{position: absolute;width: 100%;height: 100%;background: url(img/images_choujiang/firstp_bg.jpg) no-repeat left top / 100% 100%;overflow: hidden;}
+.prize_grade{font-size:98px;color: #ffe9af;text-align: center;margin: 60px auto 0;}
+.prize_list{width:55%;height:230px;margin: 20px auto 55px;text-align: center;overflow: hidden;}
+.prize_list ul{width:100%;font-size:0;}
+.prize_list li{display:inline-block;font-size:45px;color:#f1bf90;text-align: center;width:20%;line-height:100px;font-family:Arial;padding-left: 20px;}
+.start{width: 250px;height: 90px;margin:0 auto;cursor:pointer;}
+.prize_set{position: absolute;right: 60px;bottom:140px;font-size: 16px;color: #f7f3e8;line-height: 30px;}
+.prize_set li{display: inline-block;margin-left: 20px;}
+.set_grade select,.set_people input, .set_money input{background: #fff;width:110px;height:36px;border:1px solid #8f0000;margin-left: .1rem;color: #000;padding-left:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="prize_con">
+      <p class="prize_grade"><span>一等奖</span> <i>5000</i>元</p>
+        <div class="prize_list vetically">
+          <ul><li>210022</li></ul>
+        </div>
+      <p class="start"><img src="img/images_choujiang/prize_start.png" alt=""></p>
+      <ul class="prize_set">
+          <li class="set_grade">奖等
+            <select id="set_grade">
+              <option>选择奖等</option>
+              <option>特等奖</option>
+              <option>一等奖</option>
+              <option>二等奖</option>
+              <option>三等奖</option>
+            </select>
+          </li>
+          <li class="set_people">人数<input type="tel" placeholder="输入中奖人数" id="prizeCount"></li>
+          <li class="set_money">金额<input type="tel" placeholder="输入中奖金额" id="prizeMoney"></li>
+      </ul>
+  </div>
+</div>
+<input type="hidden" value="0" id="prize_btn">
+<script>
+  var myNumber;
+  var arr = [];//一个由中奖号码组成的数组
+  var code = [302610,210022,159862,158602,145635,856997,586223,546221,145213,987451,251364,854136,581698,123785,521387,752169,718954,412321,898989,121245,788565,458558,589659,455212,964632,458412,223344,112233,335566,778899];
+
+  /*随机所有的code并且不重复*/
+  function showRandomNum(num) {
+    var li = "";
+    
+    //arr[i]一一对应code的序号
+    //这里的代码也不是必须的，可以直接对code数组进行排序，这里考虑的是排序算法的效率问题，排序号当然会比直接排元素要快捷一点
+    for(var i = 0; i < code.length; i++){
+      arr[i] = i;
+      console.log(arr[i]);
+    }
+    //sort数组使arr数组随机排序
+    arr.sort(function(){
+      return 0.5 - Math.random();
+    });
+	
+	//num代表要产生几个中奖号码，然后取排序后数组的前几个，就实现了随机产生的效果，其实并不是产生，而是排序取值。
+    for(var i = 0; i < num; i++){
+      var index = arr[i];
+      console.log(index);
+      li += '<li>'+code[index]+'</li>';
+    }
+
+    $(".prize_list ul").html(li);
+  }
+
+  $(function () {
+    $(".start").click(function(){
+      if($("#prize_btn").val() == 0){        
+        if($("#set_grade").val() == "选择奖等") {
+            alert("请选择奖等");
+            return;
+        }else if($("#prizeCount").val() == "") {
+            alert("请输入中奖人数");
+            return;
+        }else if($("#prizeCount").val() > 10) {
+            alert("单次抽奖人数不能超过10人");
+            return;
+        }else if($("#prizeMoney").val() == "") {
+            alert("请输入中奖金额");
+            return;
+        }else{
+          $("#prize_btn").val(1);
+          var num = $("#prizeCount").val();
+          $(this).find("img").attr("src","img/images_choujiang/prize_stop.png");
+
+          myNumber = setInterval(function(){
+            showRandomNum(num);
+          }, 2000);
+        }        
+      }else{
+        $("#prize_btn").val(0);
+        clearInterval(myNumber);
+        $(this).find("img").attr("src","img/images_choujiang/prize_start.png");
+      }      
+    });
+
+    //回车键控制开始和停止
+    $(document).keydown(function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 32) { // 空格 键
+            $(".start").click();
+        }
+    });
+
+    $("#set_grade").change(function(){
+      $(".prize_grade span").text($(this).val());
+    });
+
+    $("#prizeMoney").keyup(function(){
+      $(".prize_grade i").text($(this).val());
+    });
+}); 
+</script>
+
+ </body></html>
+ 
+
+<!--这个抽奖代码实现的思路是，滚动所有的数组，然后随机产生所要求个数的数据
+about the random but not the same is
+我最初的想法是产生随机数，但是会有产生相同随机数的隐患，虽然可以通过在每次产生随机数前进行比较，但这显然耗时耗力，并不是最优的解决方案。
+对于数据要求多的地方，原有旧方法会有很大的局限性。
+-->
